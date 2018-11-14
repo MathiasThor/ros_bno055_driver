@@ -5,6 +5,7 @@ import sys
 import rospy
 import math
 import time
+import json
 
 from std_msgs.msg import Header
 from sensor_msgs.msg import Imu, Temperature
@@ -25,6 +26,11 @@ class BNO055Driver(object):
         if not self.device.begin():
             rospy.logerr('unable to initialize IMU at port {}'.format(serial_port))
             sys.exit(-1)
+
+	with open('calibration.json', 'r') as self.cal_file:
+            self.data = json.load(self.cal_file)
+
+        self.device.set_calibration(self.data)
 
         status = self.device.get_system_status()
         rospy.loginfo('system status is {} {} {} '.format(*status))
@@ -87,7 +93,7 @@ class BNO055Driver(object):
 
 
 def main():
-    rospy.init_node('bno055_driver')
+    rospy.init_node('IMU_driver')
     node = BNO055Driver()
     while not rospy.is_shutdown():
         node.publish_data()
