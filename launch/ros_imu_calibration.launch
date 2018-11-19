@@ -1,7 +1,7 @@
 <launch>
     <arg name="frame_id" default="/imu"/>
 
-    <node pkg="bosch_bno055_driver" type="bno055_calibration.py" name="bno055_calibration" output="screen" >
+    <node pkg="ros_imu_driver" type="imu_calibration.py" name="ros_imu_calibration" output="screen" >
         <param name="frame_id" value="$(arg frame_id)"/>
     </node>
 </launch>

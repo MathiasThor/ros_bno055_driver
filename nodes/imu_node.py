@@ -111,7 +111,7 @@ class BNO055Driver(object):
 
 
 def main():
-    rospy.init_node('IMU_driver')
+    rospy.init_node('imu_driver')
     node = BNO055Driver()
     while not rospy.is_shutdown():
         node.publish_data()

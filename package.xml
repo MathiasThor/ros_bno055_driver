@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
-  <name>bosch_bno055_driver</name>
-  <version>0.0.1</version>
+  <name>ros_imu_driver</name>
+  <version>0.0.2</version>
   <description>The bosch_bno055_driver package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
