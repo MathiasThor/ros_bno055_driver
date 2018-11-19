@@ -15,10 +15,10 @@ from Adafruit_BNO055.BNO055 import BNO055
 class BNO055Driver(object):
 
     def __init__(self):
-        serial_port = rospy.get_param('~serial_port', '/dev/ttyUSB0')
+        serial_port = rospy.get_param('~serial_port', '/dev/IMU')
 
         try:
-            self.device = BNO055(serial_port='/dev/ttyUSB0')
+            self.device = BNO055(serial_port='/dev/IMU')
         except:
             print('unable to find IMU at port {}'.format(serial_port))
             sys.exit(-1)
@@ -37,7 +37,7 @@ class BNO055Driver(object):
 
     def calibrate(self):
 	calibration_status = self.device.get_calibration_status()
-        while calibration_status != (3, ) * 4:
+        while calibration_status != (3, 3, 3, 3):
 	    print('waiting for device to be fully calibrated. please rotate IMU')
 	    print('calibration status is {} {} {} {} '.format(*calibration_status))
 	    print(' ')
@@ -51,6 +51,10 @@ class BNO055Driver(object):
 	        sys.exit()
 
 	print('Calibration done')
+	time.sleep(2)
+    	calibration_status = self.device.get_calibration_status()
+	print('calibration result is {} {} {} {} '.format(*calibration_status))
+	print(' ')
 	
 	data = self.device.get_calibration()
 	with open('calibration.json', 'w') as cal_file:

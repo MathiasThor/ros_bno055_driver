@@ -16,10 +16,10 @@ from Adafruit_BNO055.BNO055 import BNO055
 class BNO055Driver(object):
 
     def __init__(self):
-        serial_port = rospy.get_param('~serial_port', '/dev/ttyUSB0')
+        serial_port = rospy.get_param('~serial_port', '/dev/IMU')
 
         try:
-            self.device = BNO055(serial_port='/dev/ttyUSB0')
+            self.device = BNO055(serial_port='/dev/IMU')
         except:
             rospy.logerr('unable to find IMU at port {}'.format(serial_port))
             sys.exit(-1)
@@ -32,7 +32,7 @@ class BNO055Driver(object):
             self.data = json.load(self.cal_file)
 
         self.device.set_calibration(self.data)
-
+	
         status = self.device.get_system_status()
         rospy.loginfo('system status is {} {} {} '.format(*status))
         time.sleep(1)
